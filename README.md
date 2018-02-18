@@ -1,1 +1,1 @@
-# wittyMIndsAPI
+# wittyMindsAPI
