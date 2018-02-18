@@ -16,7 +16,7 @@ const authentication=require(path.join(__dirname, '..', 'utilities', 'utilities'
 
 // admin view details
 
-router.get("/", authentication.isLoogedIn,(req,res) => {
+router.get("/", authentication.isLoggedIn,(req,res) => {
   console.log("In Admin Get Route!!");
   User.find({}).exec()
     .then((user) => {
