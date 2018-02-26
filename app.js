@@ -17,10 +17,9 @@ const flash = require('connect-flash');
 const session = require('express-session');
 // const port = process.env.port || 3000;
 const app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+/**
+ * Module dependencies.
+ */
 
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -76,6 +75,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error',{error:err.status});
 });
+
 
 
 module.exports = app;

@@ -12,7 +12,21 @@ var quesNo=[],temp,index1,index2;
 var qPaper=[];
 
 router.get("/profile",authentication.isLoggedIn,function(req,res){
-	res.json({success:true});
+	User.findOne({'email':req.headers['email']}).exec()
+        .then((user) => {res.json(
+			{
+				"success":"true",
+				"name": user.name,
+				"email": user.email,
+				"school": user.school,
+				"schoolRegNum": user.schoolRegNo,
+				"standard":user.standard,
+				"section": user.section,
+				"phone": user.phone,
+				"exam": user.exam,
+				"username": user.username
+			});
+		})
 });
 
 // router.get("/dahsboard",authentication.isLoggedIn,function(req,res){
@@ -28,6 +42,7 @@ router.get("/exam",authentication.isLoggedIn,(req,res) => {
 			questionPaper.find({'quesType':'mcq'})
 				.then((mcqQuestions) => {
 						// Shuffle The Question Numbers
+						qPaper=[];
 						for(index1=mcqQuestions.length-1;index1>=0;index1-=1)
 						{
 							index2=Math.floor(Math.random()*(index1+1));
@@ -46,7 +61,8 @@ router.get("/exam",authentication.isLoggedIn,(req,res) => {
 								"opt1":data.optionA,
 								"opt2":data.optionB,
 								"opt3":data.optionC,
-								"opt4":data.optionD
+								"opt4":data.optionD,
+								"quesType":data.quesType
 							});
 						});
 						resolve(qPaper)
@@ -75,7 +91,8 @@ router.get("/exam",authentication.isLoggedIn,(req,res) => {
 							return false;
 						}
 						qPaper.push({
-							"question":data.question
+							"question":data.question,
+							"quesType":data.quesType
 						});
 					});
 					console.log(qPaper);
@@ -97,6 +114,7 @@ router.get("/exam",authentication.isLoggedIn,(req,res) => {
 // Submit Exam
 
 router.post("/exam/submit",authentication.isLoggedIn,(req,res) => {
+	console.log(req);
 	User.findOne({'email':req.headers['email']}).exec()
 		.then((user) => {
 			return user;
